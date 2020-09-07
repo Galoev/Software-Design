@@ -217,4 +217,104 @@ public class CommandTest {
         );
         assertEquals(System.getProperty("user.dir") + "\n", IOUtils.toString(inputStream));
     }
+
+    @Test
+    public void testGrep1() throws Exception {
+        Command command = new CommandGrep();
+        String text = "Hello world!\n" + "Example text\n" + "Software Design\n";
+        String regex = "text";
+        String ans =  "Example text\n";
+        InputStream inputStream = command.execute(
+                Collections.singletonList(regex),
+                new ByteArrayInputStream(text.getBytes())
+                );
+        assertEquals(ans, IOUtils.toString(inputStream));
+    }
+
+    @Test
+    public void testGrep2() throws Exception {
+        Command command = new CommandGrep();
+        List<String> args = new ArrayList<>();
+        String regex = "file[0-9]";
+        args.add(regex);
+        Path path1 = null;
+        Path path2 = null;
+        Path path3 = null;
+        try {
+            path1 = Files.createTempFile("temp1", ".txt");
+            path2 = Files.createTempFile("temp2", ".txt");
+            path3 = Files.createTempFile("temp3", ".txt");
+            String text1 = "Text file1\n";
+            String text2 = "Text file2\nHello World!";
+            String text3 = "Text file3\nHello World!\nHello World!";
+            String ans = "Text file1\n" + "Text file2\n" + "Text file3\n";
+            byte[] buf = text1.getBytes();
+            Files.write(path1, buf);
+            buf = text2.getBytes();
+            Files.write(path2, buf);
+            buf = text3.getBytes();
+            Files.write(path3, buf);
+
+            args.add(path1.toAbsolutePath().toString());
+            args.add(path2.toAbsolutePath().toString());
+            args.add(path3.toAbsolutePath().toString());
+            InputStream inputStream = command.execute(
+                    args,
+                    new ByteArrayInputStream("".getBytes())
+            );
+            String commandResult = IOUtils.toString(inputStream);
+            assertEquals(ans, commandResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGrep3() throws Exception {
+        Command command = new CommandGrep();
+        String text = "HELLO1\n" + "ell4\n"  + "mELLm6\n" + "ello2\n" + "HeLlO3\n";
+        String regex = ".ell.[0-9]";
+        String ans =  "HELLO1\n" + "mELLm6\n" + "HeLlO3\n";
+        InputStream inputStream = command.execute(
+                Arrays.asList("-i", regex),
+                new ByteArrayInputStream(text.getBytes())
+        );
+        assertEquals(ans, IOUtils.toString(inputStream));
+    }
+
+    @Test
+    public void testGrep4() throws Exception {
+        Command command = new CommandGrep();
+        String text = "xxxxxxxxxx\n" + "aaaaa xxx bbbbbb\n"  + "xxxy\n" + "xxx\n" + "bbbb xxx\n" + "axxx\n";
+        String regex = "xxx";
+        String ans =  "aaaaa xxx bbbbbb\n" + "xxx\n" + "bbbb xxx\n";
+        InputStream inputStream = command.execute(
+                Arrays.asList("-w", regex),
+                new ByteArrayInputStream(text.getBytes())
+        );
+        String commandResult = IOUtils.toString(inputStream);
+        assertEquals(ans, commandResult);
+    }
+
+    @Test
+    public void testGrep5() throws Exception {
+        Command command = new CommandGrep();
+        String text = "xxxxxxxxxx\n" + "aaaaa xxx bbbbbb\n"  + "xxxy\n" + "xxx\n" + "bbbb xxx\n" + "axxx\n";
+        String regex = "xxx";
+        String ans =  "aaaaa xxx bbbbbb\n"  + "xxxy\n" + "xxx\n" + "bbbb xxx\n" + "axxx\n";
+        InputStream inputStream = command.execute(
+                Arrays.asList("-w", "-A", "1", regex),
+                new ByteArrayInputStream(text.getBytes())
+        );
+        assertEquals(ans, IOUtils.toString(inputStream));
+    }
+
+    @Test(expected = Exception.class)
+    public void testGrep6() throws Exception {
+        Command command = new CommandGrep();
+        command.execute(
+                Arrays.asList("-w", "-A", "1", "regex", "NoSuchFile.txt"),
+                new ByteArrayInputStream("".getBytes())
+        );
+    }
 }
