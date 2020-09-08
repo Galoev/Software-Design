@@ -1,3 +1,5 @@
+package com.galoev;
+
 import org.junit.Test;
 
 import java.util.List;
@@ -9,7 +11,7 @@ public class ParserTest {
     private final static Substitute substitute = new Substitute();
 
     @Test
-    public void test1() throws Exception {
+    public void testOnePipe() throws Exception {
         Environment environment = new Environment();
         Parser parser = new Parser();
         String commandLine = "echo Hello | wc";
@@ -20,7 +22,7 @@ public class ParserTest {
     }
 
     @Test
-    public void test2() throws Exception {
+    public void testMultiPipe() throws Exception {
         Environment environment = new Environment();
         Parser parser = new Parser();
 
@@ -39,7 +41,7 @@ public class ParserTest {
     }
 
     @Test(expected = Exception.class)
-    public void test3() throws Exception{
+    public void testException() throws Exception{
         Environment environment = new Environment();
         Parser parser = new Parser();
 

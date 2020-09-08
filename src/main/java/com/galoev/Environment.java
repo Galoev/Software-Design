@@ -1,3 +1,5 @@
+package com.galoev;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class Environment {
      * @param var variable name
      * @return variable value
      */
-    public String getVal(String var){
+    public String getVal(String var) {
         return varValues.getOrDefault(var, "");
     }
 }

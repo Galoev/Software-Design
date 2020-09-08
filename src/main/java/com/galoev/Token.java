@@ -1,3 +1,5 @@
+package com.galoev;
+
 /**
  * These are the objects into which the input string will be split
  */

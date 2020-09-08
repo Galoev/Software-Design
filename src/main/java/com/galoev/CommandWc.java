@@ -1,3 +1,5 @@
+package com.galoev;
+
 import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -12,7 +14,7 @@ import java.util.List;
 public class CommandWc implements Command {
     @Override
     public InputStream execute(List<String> args, InputStream input) throws Exception {
-        StringBuilder result = new StringBuilder();
+        var result = new StringBuilder();
         int curLinesCount = 0;
         int curWordsCount = 0;
         int curBytesCount = 0;
@@ -30,7 +32,7 @@ public class CommandWc implements Command {
         } else {
             for (String arg: args) {
                 try {
-                    String text = new String(Files.readAllBytes(Paths.get(arg)));
+                    var text = new String(Files.readAllBytes(Paths.get(arg)));
                     curLinesCount = text.split("\n").length;
                     curWordsCount = text.trim().split("\\s+").length;
                     curBytesCount = text.length();

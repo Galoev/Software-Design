@@ -1,3 +1,5 @@
+package com.galoev;
+
 import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -66,7 +68,7 @@ public class Parser {
             } else {
                 tmp.add(lexemes.get(i));
             }
-            i+=1;
+            i++;
         }
         if (tmp.size() > 0) {
             res.add(tmp);

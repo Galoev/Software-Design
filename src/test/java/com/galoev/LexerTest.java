@@ -1,3 +1,5 @@
+package com.galoev;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,13 +10,13 @@ import static org.junit.Assert.*;
 
 public class LexerTest {
     @Test
-    public void test1() throws Exception {
+    public void testEmptyArgs() throws Exception {
         Lexer lexer = new Lexer();
         assertEquals(new ArrayList<>(), lexer.parse(""));
     }
 
     @Test
-    public void test2() throws Exception {
+    public void testPerformance1() throws Exception {
         Lexer lexer = new Lexer();
         List<Token> tokens = Arrays.asList(
                 new Token(Token.Type.WORDS, "echo"),
@@ -29,7 +31,7 @@ public class LexerTest {
     }
 
     @Test
-    public void test3() throws Exception {
+    public void testPerformance2() throws Exception {
         Lexer lexer = new Lexer();
         List<Token> tokens = Arrays.asList(
                 new Token(Token.Type.WORDS, "echo"),

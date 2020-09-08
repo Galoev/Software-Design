@@ -1,3 +1,5 @@
+package com.galoev;
+
 import java.io.InputStream;
 import java.util.List;
 

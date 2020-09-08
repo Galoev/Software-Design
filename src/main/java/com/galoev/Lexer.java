@@ -1,3 +1,5 @@
+package com.galoev;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +17,7 @@ public class Lexer {
      * @return list of tokens
      * @throws Exception throws an exception if cannot find the second quote
      */
-    public List<Token> parse(String commandLine) throws Exception{
+    public List<Token> parse(String commandLine) throws Exception {
         int len = commandLine.length();
         List<Token> tokens = new ArrayList<>();
         String curWord = "";

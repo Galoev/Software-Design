@@ -1,3 +1,5 @@
+package com.galoev;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -14,12 +16,12 @@ public class CommandCat implements Command{
         if (args.isEmpty()) {
             return input;
         } else {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             for (String arg: args) {
                 try {
                     result.append(new String(Files.readAllBytes(Paths.get(arg))));
                 } catch (NoSuchFileException e) {
-                    throw new Exception("File " + arg + "not found");
+                    throw new Exception("File " + arg + " not found");
                 }
             }
             return new ByteArrayInputStream(result.toString().getBytes());

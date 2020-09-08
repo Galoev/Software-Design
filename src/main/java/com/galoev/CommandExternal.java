@@ -1,3 +1,5 @@
+package com.galoev;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -8,13 +10,16 @@ import java.util.List;
 public class CommandExternal implements Command {
     @Override
     public InputStream execute(List<String> args, InputStream input) throws Exception {
-        ProcessBuilder processBuilder = new ProcessBuilder(args);
+        var processBuilder = new ProcessBuilder(args);
+        processBuilder.redirectErrorStream(true);
         Process process;
         try {
             process = processBuilder.start();
         } catch (IOException e) {
             throw new Exception("Command not found");
         }
+        process.waitFor();
         return process.getInputStream();
     }
+
 }

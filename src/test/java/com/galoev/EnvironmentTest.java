@@ -1,15 +1,17 @@
+package com.galoev;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class EnvironmentTest {
     @Test
-    public void test1() {
+    public void testEmptyEnvironment() {
         Environment environment = new Environment();
         assertEquals("", environment.getVal("var"));
     }
 
     @Test
-    public void test2() {
+    public void testPerformance() {
         Environment environment = new Environment();
         environment.putVal("var1", "val1");
         assertEquals("", environment.getVal("var"));

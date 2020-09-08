@@ -1,3 +1,5 @@
+package com.galoev;
+
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -7,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class SubstituteTest {
     @Test
-    public void test1() {
+    public void testOneArg() {
         Environment environment = new Environment();
         Substitute substitute = new Substitute();
         environment.putVal("a", "ex");
@@ -20,7 +22,7 @@ public class SubstituteTest {
     }
 
     @Test
-    public void test2() {
+    public void testMultipleArgs() {
         Environment environment = new Environment();
         Substitute substitute = new Substitute();
         environment.putVal("x", "1");
@@ -41,30 +43,9 @@ public class SubstituteTest {
         assertTrue(compareListsTokens(tokens, substitutionRes));
     }
 
-    @Test
-    public void test3() {
-        Environment environment = new Environment();
-        Substitute substitute = new Substitute();
-        environment.putVal("x", "1");
-        environment.putVal("y", "2");
-        environment.putVal("var", "val");
-        List<Token> substitutionRes = substitute.substitution(Arrays.asList(
-                new Token(Token.Type.SUBSTITUTION, "$x"),
-                new Token(Token.Type.SUBSTITUTION, "$y"),
-                new Token(Token.Type.SUBSTITUTION, "$var"),
-                new Token(Token.Type.SUBSTITUTION, "$x$y$var")
-        ), environment);
-        List<Token> tokens = Arrays.asList(
-                new Token(Token.Type.WORDS, "1"),
-                new Token(Token.Type.WORDS, "2"),
-                new Token(Token.Type.WORDS, "val"),
-                new Token(Token.Type.WORDS, "12val")
-        );
-        assertTrue(compareListsTokens(tokens, substitutionRes));
-    }
 
     @Test
-    public void test4() {
+    public void testSingleQuote() {
         Environment environment = new Environment();
         Substitute substitute = new Substitute();
         environment.putVal("x", "1");
@@ -86,7 +67,7 @@ public class SubstituteTest {
     }
 
     @Test
-    public void test5() {
+    public void testDoubleQuote() {
         Environment environment = new Environment();
         Substitute substitute = new Substitute();
         environment.putVal("x", "1");
