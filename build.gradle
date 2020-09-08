@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'application'
+
+mainClassName = 'CLI'
+
+group 'com.galoev'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+}
+
+run{
+    standardInput = System.in
+}
