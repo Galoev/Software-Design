@@ -4,7 +4,7 @@ plugins {
     id 'jacoco'
 }
 
-mainClassName = 'CLI'
+mainClassName = 'CommandLineInterface'
 
 group 'com.galoev'
 version '1.0-SNAPSHOT'
