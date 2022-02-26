@@ -2,8 +2,11 @@ package com.galoev;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+/**
+ * In this class, test cases for the class Environment.
+ */
 public class EnvironmentTest {
   @Test
   public void testEmptyEnvironment() {

@@ -1,8 +1,5 @@
 package com.galoev;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -11,9 +8,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.io.IOUtils;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+/**
+ * In this class, test cases for commands.
+ */
 public class CommandTest {
 
   @Test

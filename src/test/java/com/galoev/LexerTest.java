@@ -1,13 +1,16 @@
 package com.galoev;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+/**
+ * In this class, test cases for the class Lexer.
+ */
 public class LexerTest {
   @Test
   public void testEmptyArgs() throws Exception {
@@ -49,11 +52,12 @@ public class LexerTest {
             new Token(Token.Type.PIPE, "|"),
             new Token(Token.Type.WORDS, "exit")
     );
-    List<Token> lexerTokens = lexer.parse("echo Hello | 'quote' | \"d_quote\" | $subst | x=assignment | pwd | exit");
+    var commandLine = "echo Hello | 'quote' | \"d_quote\" | $subst | x=assignment | pwd | exit";
+    List<Token> lexerTokens = lexer.parse(commandLine);
     assertTrue(compareListsTokens(tokens, lexerTokens));
   }
 
-  private static final boolean compareListsTokens(List<Token> first, List<Token> second) {
+  private static boolean compareListsTokens(List<Token> first, List<Token> second) {
     if (first.size() != second.size()) {
       return false;
     }

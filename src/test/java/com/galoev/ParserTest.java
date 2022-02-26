@@ -1,14 +1,16 @@
 package com.galoev;
 
+import java.util.List;
 import org.junit.Test;
 
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
-
+/**
+ * In this class, test cases for the class Parser.
+ */
 public class ParserTest {
-  private final static Lexer lexer = new Lexer();
-  private final static Substitute substitute = new Substitute();
+  private static final Lexer lexer = new Lexer();
+  private static final Substitute substitute = new Substitute();
 
   @Test
   public void testOnePipe() throws Exception {
