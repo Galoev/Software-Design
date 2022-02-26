@@ -15,4 +15,4 @@ jobs:
           distribution: 'adopt'
       - uses: gradle/gradle-build-action@v2
         with:
-          arguments: build --scan
+          arguments: test
