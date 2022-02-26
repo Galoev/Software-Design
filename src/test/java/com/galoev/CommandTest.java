@@ -48,7 +48,6 @@ public class CommandTest {
 
   @Test
   public void testCat3() throws Exception {
-    Command command = new CommandCat();
     Path path1 = null;
     Path path2 = null;
     Path path3 = null;
@@ -78,6 +77,7 @@ public class CommandTest {
     args.add(path2.toAbsolutePath().toString());
     args.add(path3.toAbsolutePath().toString());
 
+    Command command = new CommandCat();
     InputStream inputStream = command.execute(
             args,
             new ByteArrayInputStream("".getBytes())
@@ -136,20 +136,19 @@ public class CommandTest {
 
   @Test
   public void testWc2() throws Exception {
-    Command command = new CommandWc();
     Path path1 = Files.createTempFile("temp1", ".txt");
     Path path2 = Files.createTempFile("temp2", ".txt");
     Path path3 = Files.createTempFile("temp3", ".txt");
-
-    String text1 = "Text file1";
-    String text2 = "Text file2\nHello World!";
-    String text3 = "Text file3\nHello World!\nHello World!";
 
     var stringBuilder = new StringBuilder();
     stringBuilder.append("1 2 10 " + path1.toAbsolutePath().toString() + "\n");
     stringBuilder.append("2 4 23 " + path2.toAbsolutePath().toString() + "\n");
     stringBuilder.append("3 6 36 " + path3.toAbsolutePath().toString() + "\n");
     stringBuilder.append("6 12 69 total\n");
+
+    String text1 = "Text file1";
+    String text2 = "Text file2\nHello World!";
+    String text3 = "Text file3\nHello World!\nHello World!";
 
     byte[] buf = text1.getBytes();
     Files.write(path1, buf);
@@ -163,6 +162,7 @@ public class CommandTest {
     args.add(path2.toAbsolutePath().toString());
     args.add(path3.toAbsolutePath().toString());
 
+    Command command = new CommandWc();
     InputStream inputStream = command.execute(
             args,
             new ByteArrayInputStream("".getBytes())

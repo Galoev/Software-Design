@@ -62,8 +62,8 @@ public class LexerTest {
       return false;
     }
     for (int i = 0; i < first.size(); i++) {
-      if ((!(first.get(i).getType().equals(second.get(i).getType()))) ||
-              (!(first.get(i).getValue().equals(second.get(i).getValue())))) {
+      if ((!(first.get(i).getType().equals(second.get(i).getType())))
+              || (!(first.get(i).getValue().equals(second.get(i).getValue())))) {
         return false;
       }
     }
