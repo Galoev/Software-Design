@@ -20,6 +20,10 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           arguments: test
+      - name: Checkstyle
+        uses: dbelyaev/action-checkstyle@v0.5.1
+        with:
+          level: warning
       - name: Archive test report
         uses: actions/upload-artifact@v2
         with:
