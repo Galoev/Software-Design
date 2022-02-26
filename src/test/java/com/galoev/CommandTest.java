@@ -146,14 +146,19 @@ public class CommandTest {
     stringBuilder.append("3 6 36 " + path3.toAbsolutePath().toString() + "\n");
     stringBuilder.append("6 12 69 total\n");
 
-    String text1 = "Text file1";
-    String text2 = "Text file2\nHello World!";
-    String text3 = "Text file3\nHello World!\nHello World!";
 
+
+
+
+    var text1 = "Text file1";
     byte[] buf = text1.getBytes();
     Files.write(path1, buf);
+
+    var text2 = "Text file2\nHello World!";
     buf = text2.getBytes();
     Files.write(path2, buf);
+
+    var text3 = "Text file3\nHello World!\nHello World!";
     buf = text3.getBytes();
     Files.write(path3, buf);
 

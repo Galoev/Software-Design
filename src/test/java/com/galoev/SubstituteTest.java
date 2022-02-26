@@ -90,13 +90,13 @@ public class SubstituteTest {
     assertTrue(compareListsTokens(tokens, substitutionRes));
   }
 
-  private static final boolean compareListsTokens(List<Token> first, List<Token> second) {
+  private static boolean compareListsTokens(List<Token> first, List<Token> second) {
     if (first.size() != second.size()) {
       return false;
     }
     for (int i = 0; i < first.size(); i++) {
-      if ((!(first.get(i).getType().equals(second.get(i).getType()))) ||
-              (!(first.get(i).getValue().equals(second.get(i).getValue())))) {
+      if ((!(first.get(i).getType().equals(second.get(i).getType())))
+              || (!(first.get(i).getValue().equals(second.get(i).getValue())))) {
         return false;
       }
     }
