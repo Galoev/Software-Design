@@ -18,7 +18,9 @@ public class Parser {
       "echo", new CommandEcho(),
       "wc", new CommandWc(),
       "pwd", new CommandPwd(),
-      "exit", new CommandExit()
+      "exit", new CommandExit(),
+      "ls", new CommandLs(),
+      "cd", new CommandCd()
   ));
 
   /**
