@@ -14,11 +14,11 @@ import org.apache.commons.io.IOUtils;
  */
 public class Parser {
   private static final Map<String, Command> COMMANDS = new HashMap<>(Map.of(
-          "cat", new CommandCat(),
-          "echo", new CommandEcho(),
-          "wc", new CommandWc(),
-          "pwd", new CommandPwd(),
-          "exit", new CommandExit()
+      "cat", new CommandCat(),
+      "echo", new CommandEcho(),
+      "wc", new CommandWc(),
+      "pwd", new CommandPwd(),
+      "exit", new CommandExit()
   ));
 
   /**
@@ -54,6 +54,7 @@ public class Parser {
         arguments = words;
       }
       inputStream = command.execute(
+              environment,
               arguments.stream().map(Token::getValue).collect(Collectors.toList()),
               inputStream);
     }

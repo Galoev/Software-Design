@@ -1,5 +1,7 @@
 package com.galoev;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +10,21 @@ import java.util.Map;
  */
 public class Environment {
   private Map<String, String> varValues = new HashMap<>();
+  private Path workingDir = Paths.get("").toAbsolutePath().normalize();
+
+  public Path getWorkingDir() {
+    return workingDir;
+  }
+
+  public boolean setWorkingDir(Path workingDir) {
+    if (workingDir.toFile().isDirectory()) {
+      this.workingDir = workingDir.toAbsolutePath().normalize();
+
+      return true;
+    }
+
+    return false;
+  }
 
   /**
    * Sets the environment variable by the passed variable and its value.

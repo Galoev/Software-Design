@@ -9,8 +9,10 @@ import java.util.List;
  */
 public class CommandExternal implements Command {
   @Override
-  public InputStream execute(List<String> args, InputStream input) throws Exception {
-    var processBuilder = new ProcessBuilder(args);
+  public InputStream execute(Environment environment, List<String> args, InputStream input) throws Exception {
+    var processBuilder = new ProcessBuilder(args)
+        .directory(environment.getWorkingDir().toFile());
+
     processBuilder.redirectErrorStream(true);
     Process process;
     try {

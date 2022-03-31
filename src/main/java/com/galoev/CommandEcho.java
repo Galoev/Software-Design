@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class CommandEcho implements Command {
   @Override
-  public InputStream execute(List<String> args, InputStream input) throws Exception {
+  public InputStream execute(Environment environment, List<String> args, InputStream input) throws Exception {
     return new ByteArrayInputStream((String.join(" ", args) + "\n").getBytes());
   }
 }

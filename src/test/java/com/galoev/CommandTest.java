@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
  * In this class, test cases for commands.
  */
 public class CommandTest {
+  private final Environment environment = new Environment();
 
   @Test
   public void testCat1() throws Exception {
@@ -27,6 +28,7 @@ public class CommandTest {
     byte[] buf = text.getBytes();
     Files.write(path, buf);
     InputStream inputStream = command.execute(
+            environment,
             Collections.singletonList(path.toAbsolutePath().toString()),
             new ByteArrayInputStream("".getBytes())
     );
@@ -39,6 +41,7 @@ public class CommandTest {
     Command command = new CommandCat();
     String text = "Hello World!";
     InputStream inputStream = command.execute(
+            environment,
             new ArrayList<>(),
             new ByteArrayInputStream(text.getBytes())
     );
@@ -79,6 +82,7 @@ public class CommandTest {
 
     Command command = new CommandCat();
     InputStream inputStream = command.execute(
+            environment,
             args,
             new ByteArrayInputStream("".getBytes())
     );
@@ -90,6 +94,7 @@ public class CommandTest {
   public void testCat4() throws Exception {
     Command command = new CommandCat();
     command.execute(
+            environment,
             Collections.singletonList("NoSuchFile.txt"),
             new ByteArrayInputStream("".getBytes())
     );
@@ -99,6 +104,7 @@ public class CommandTest {
   public void testEcho1() throws Exception {
     Command command = new CommandEcho();
     InputStream inputStream = command.execute(
+            environment,
             new ArrayList<>(),
             new ByteArrayInputStream("".getBytes())
     );
@@ -113,6 +119,7 @@ public class CommandTest {
     args.add("World");
     args.add("!");
     InputStream inputStream = command.execute(
+            environment,
             args,
             new ByteArrayInputStream("".getBytes())
     );
@@ -127,6 +134,7 @@ public class CommandTest {
     byte[] buf = text.getBytes();
     Files.write(path, buf);
     InputStream inputStream = command.execute(
+            environment,
             Collections.singletonList(path.toAbsolutePath().toString()),
             new ByteArrayInputStream("".getBytes())
     );
@@ -169,6 +177,7 @@ public class CommandTest {
 
     Command command = new CommandWc();
     InputStream inputStream = command.execute(
+            environment,
             args,
             new ByteArrayInputStream("".getBytes())
     );
@@ -180,6 +189,7 @@ public class CommandTest {
   public void testWc3() throws Exception {
     Command command = new CommandWc();
     command.execute(
+            environment,
             Collections.singletonList("NoSuchFile.txt"),
             new ByteArrayInputStream("".getBytes())
     );
@@ -190,6 +200,7 @@ public class CommandTest {
     Command command = new CommandExternal();
     String text = "Hello World!" + System.lineSeparator() + "Hello World!";
     InputStream inputStream = command.execute(
+            environment,
             Arrays.asList("echo", text),
             new ByteArrayInputStream("".getBytes())
     );
@@ -200,6 +211,7 @@ public class CommandTest {
   public void testPwd() throws Exception {
     Command command = new CommandPwd();
     InputStream inputStream = command.execute(
+            environment,
             new ArrayList<>(),
             new ByteArrayInputStream("".getBytes())
     );

@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class CommandPwd implements Command {
   @Override
-  public InputStream execute(List<String> args, InputStream input) {
-    var path = Paths.get(".").toAbsolutePath().normalize() + "\n";
+  public InputStream execute(Environment environment, List<String> args, InputStream input) {
+    var path = environment.getWorkingDir() + "\n";
     return new ByteArrayInputStream(path.getBytes());
   }
 }

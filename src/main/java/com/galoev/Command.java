@@ -15,5 +15,5 @@ public interface Command {
    * @return result of command execution as InputStream
    * @throws Exception errors that commands can throw
    */
-  InputStream execute(List<String> args, InputStream input) throws Exception;
+  InputStream execute(Environment environment, List<String> args, InputStream input) throws Exception;
 }
