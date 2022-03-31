@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -12,14 +13,14 @@ import java.util.List;
  */
 public class CommandCat implements Command {
   @Override
-  public InputStream execute(List<String> args, InputStream input) throws Exception {
+  public InputStream execute(Environment environment, List<String> args, InputStream input) throws Exception {
     if (args.isEmpty()) {
       return input;
     } else {
       var result = new StringBuilder();
       for (String arg : args) {
         try {
-          result.append(new String(Files.readAllBytes(Paths.get(arg))));
+          result.append(new String(Files.readAllBytes(Utils.addWorkingDir(environment, Paths.get(arg)))));
         } catch (NoSuchFileException e) {
           throw new Exception("File " + arg + " not found");
         }

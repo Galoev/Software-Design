@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class CommandExit implements Command {
   @Override
-  public InputStream execute(List<String> args, InputStream input) throws Exception {
+  public InputStream execute(Environment environment, List<String> args, InputStream input) throws Exception {
     System.exit(0);
     return null;
   }

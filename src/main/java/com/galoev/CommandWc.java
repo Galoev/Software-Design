@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
@@ -13,7 +14,7 @@ import org.apache.commons.io.IOUtils;
  */
 public class CommandWc implements Command {
   @Override
-  public InputStream execute(List<String> args, InputStream input) throws Exception {
+  public InputStream execute(Environment environment, List<String> args, InputStream input) throws Exception {
     var result = new StringBuilder();
     int curLinesCount = 0;
     int curWordsCount = 0;
@@ -32,7 +33,7 @@ public class CommandWc implements Command {
     } else {
       for (String arg : args) {
         try {
-          var text = new String(Files.readAllBytes(Paths.get(arg)));
+          var text = new String(Files.readAllBytes(Utils.addWorkingDir(environment, Path.of(arg))));
           curLinesCount = text.split("\n").length;
           curWordsCount = text.trim().split("\\s+").length;
           curBytesCount = text.length();

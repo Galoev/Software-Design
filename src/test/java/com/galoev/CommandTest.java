@@ -2,21 +2,32 @@ package com.galoev;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * In this class, test cases for commands.
  */
 public class CommandTest {
+  private Environment environment;
+
+  @Before
+  public void setUp() {
+    environment = new Environment();
+  }
 
   @Test
   public void testCat1() throws Exception {
@@ -27,6 +38,7 @@ public class CommandTest {
     byte[] buf = text.getBytes();
     Files.write(path, buf);
     InputStream inputStream = command.execute(
+            environment,
             Collections.singletonList(path.toAbsolutePath().toString()),
             new ByteArrayInputStream("".getBytes())
     );
@@ -39,6 +51,7 @@ public class CommandTest {
     Command command = new CommandCat();
     String text = "Hello World!";
     InputStream inputStream = command.execute(
+            environment,
             new ArrayList<>(),
             new ByteArrayInputStream(text.getBytes())
     );
@@ -79,6 +92,7 @@ public class CommandTest {
 
     Command command = new CommandCat();
     InputStream inputStream = command.execute(
+            environment,
             args,
             new ByteArrayInputStream("".getBytes())
     );
@@ -90,6 +104,7 @@ public class CommandTest {
   public void testCat4() throws Exception {
     Command command = new CommandCat();
     command.execute(
+            environment,
             Collections.singletonList("NoSuchFile.txt"),
             new ByteArrayInputStream("".getBytes())
     );
@@ -99,6 +114,7 @@ public class CommandTest {
   public void testEcho1() throws Exception {
     Command command = new CommandEcho();
     InputStream inputStream = command.execute(
+            environment,
             new ArrayList<>(),
             new ByteArrayInputStream("".getBytes())
     );
@@ -113,6 +129,7 @@ public class CommandTest {
     args.add("World");
     args.add("!");
     InputStream inputStream = command.execute(
+            environment,
             args,
             new ByteArrayInputStream("".getBytes())
     );
@@ -127,6 +144,7 @@ public class CommandTest {
     byte[] buf = text.getBytes();
     Files.write(path, buf);
     InputStream inputStream = command.execute(
+            environment,
             Collections.singletonList(path.toAbsolutePath().toString()),
             new ByteArrayInputStream("".getBytes())
     );
@@ -169,6 +187,7 @@ public class CommandTest {
 
     Command command = new CommandWc();
     InputStream inputStream = command.execute(
+            environment,
             args,
             new ByteArrayInputStream("".getBytes())
     );
@@ -180,6 +199,7 @@ public class CommandTest {
   public void testWc3() throws Exception {
     Command command = new CommandWc();
     command.execute(
+            environment,
             Collections.singletonList("NoSuchFile.txt"),
             new ByteArrayInputStream("".getBytes())
     );
@@ -190,6 +210,7 @@ public class CommandTest {
     Command command = new CommandExternal();
     String text = "Hello World!" + System.lineSeparator() + "Hello World!";
     InputStream inputStream = command.execute(
+            environment,
             Arrays.asList("echo", text),
             new ByteArrayInputStream("".getBytes())
     );
@@ -200,9 +221,99 @@ public class CommandTest {
   public void testPwd() throws Exception {
     Command command = new CommandPwd();
     InputStream inputStream = command.execute(
+            environment,
             new ArrayList<>(),
             new ByteArrayInputStream("".getBytes())
     );
     assertEquals(System.getProperty("user.dir") + "\n", IOUtils.toString(inputStream));
+  }
+
+  @Test
+  public void testLs1() throws Exception {
+    Command command = new CommandLs();
+    InputStream out = command.execute(
+      environment,
+      List.of(),
+      new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8))
+    );
+    assertTrue(Arrays.asList(IOUtils.toString(out).split(" ")).contains("src"));
+  }
+
+  @Test
+  public void testLs2() throws Exception {
+    Command command = new CommandLs();
+    var f = Files.createTempFile("test", "tmp");
+    InputStream out = command.execute(
+      environment,
+      List.of(f.getParent().toString()),
+      new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8))
+    );
+
+    assertTrue(Arrays.asList(IOUtils.toString(out).split(" ")).contains(f.toFile().getName()));
+
+    out = command.execute(
+      environment,
+      List.of(f.toFile().getName()),
+      new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8))
+    );
+
+    assertEquals(f.toFile().getName(), IOUtils.toString(out));
+  }
+
+  @Test(expected = Exception.class)
+  public void testLs3() throws Exception {
+    new CommandLs()
+      .execute(
+        environment,
+        List.of("1", "2"),
+        new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8))
+      );
+  }
+
+  @Test
+  public void testCd1() throws Exception {
+    Command command = new CommandCd();
+
+    InputStream out = command.execute(
+      environment,
+      List.of(),
+      new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8))
+    );
+
+    assertEquals("", IOUtils.toString(out));
+  }
+
+  @Test
+  public void testCd2() throws Exception {
+    Command command = new CommandCd();
+    final var prevDir = environment.getWorkingDir().toString();
+   command.execute(
+      environment,
+      List.of("../"),
+      new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8))
+    );
+
+    assertEquals(Path.of("../").toAbsolutePath().normalize(), environment.getWorkingDir());
+    assertNotEquals(prevDir, environment.getWorkingDir().toString());
+  }
+
+  @Test(expected = NoSuchFileException.class)
+  public void testCd3() throws Exception {
+    Command command = new CommandCd();
+    var f = Files.createTempFile("test", "tmp");
+    command.execute(
+      environment,
+      List.of(f.toFile().getName()),
+      new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8))
+    );
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testCd4() throws Exception {
+    new CommandCd().execute(
+      environment,
+      List.of("1", "2"),
+      new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8))
+    );
   }
 }
