@@ -18,6 +18,7 @@ public class Parser {
           "echo", new CommandEcho(),
           "wc", new CommandWc(),
           "pwd", new CommandPwd(),
+          "grep", new CommandGrep(),
           "exit", new CommandExit()
   ));
 
