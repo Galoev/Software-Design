@@ -221,35 +221,37 @@ public class CommandTest {
 
   @Test
   public void testGrepManyFiles() throws Exception {
-    Command command = new CommandGrep();
     List<String> args = new ArrayList<>();
     String regex = "file[0-9]";
     args.add(regex);
 
-    Path path1 = Files.createTempFile("temp1", ".txt");
-    Path path2 = Files.createTempFile("temp2", ".txt");
-    Path path3 = Files.createTempFile("temp3", ".txt");
-
     String text1 = "Text file1\n";
-    String text2 = "Text file2\nHello World!";
-    String text3 = "Text file3\nHello World!\nHello World!";
-    String ans = "Text file1\n" + "Text file2\n" + "Text file3\n";
-
+    Path path1 = Files.createTempFile("temp1", ".txt");
     byte[] buf = text1.getBytes();
     Files.write(path1, buf);
+
+    String text2 = "Text file2\nHello World!";
+    Path path2 = Files.createTempFile("temp2", ".txt");
     buf = text2.getBytes();
     Files.write(path2, buf);
+
+    String text3 = "Text file3\nHello World!\nHello World!";
+    Path path3 = Files.createTempFile("temp3", ".txt");
     buf = text3.getBytes();
     Files.write(path3, buf);
 
     args.add(path1.toAbsolutePath().toString());
     args.add(path2.toAbsolutePath().toString());
     args.add(path3.toAbsolutePath().toString());
+
+    Command command = new CommandGrep();
     InputStream inputStream = command.execute(
             args,
             new ByteArrayInputStream("".getBytes())
     );
+
     String commandResult = IOUtils.toString(inputStream);
+    String ans = "Text file1\n" + "Text file2\n" + "Text file3\n";
     assertEquals(ans, commandResult);
   }
 
@@ -269,7 +271,12 @@ public class CommandTest {
   @Test
   public void testGrepKeyW() throws Exception {
     Command command = new CommandGrep();
-    String text = "xxxxxxxxxx\n" + "aaaaa xxx bbbbbb\n"  + "xxxy\n" + "xxx\n" + "bbbb xxx\n" + "axxx\n";
+    String text = "xxxxxxxxxx\n" +
+                  "aaaaa xxx bbbbbb\n"  +
+                  "xxxy\n" +
+                  "xxx\n" +
+                  "bbbb xxx\n" +
+                  "axxx\n";
     String regex = "xxx";
     String ans =  "aaaaa xxx bbbbbb\n" + "xxx\n" + "bbbb xxx\n";
     InputStream inputStream = command.execute(
@@ -283,7 +290,12 @@ public class CommandTest {
   @Test
   public void testGrepKeyA() throws Exception {
     Command command = new CommandGrep();
-    String text = "xxxxxxxxxx\n" + "aaaaa xxx bbbbbb\n"  + "xxxy\n" + "xxx\n" + "bbbb xxx\n" + "axxx\n";
+    String text = "xxxxxxxxxx\n" +
+                  "aaaaa xxx bbbbbb\n"  +
+                  "xxxy\n" +
+                  "xxx\n" +
+                  "bbbb xxx\n" +
+                  "axxx\n";
     String regex = "xxx";
     String ans =  "aaaaa xxx bbbbbb\n"  + "xxxy\n" + "xxx\n" + "bbbb xxx\n" + "axxx\n";
     InputStream inputStream = command.execute(
