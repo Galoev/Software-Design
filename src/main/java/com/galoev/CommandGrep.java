@@ -3,7 +3,6 @@ package com.galoev;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,13 +36,18 @@ public class CommandGrep implements Command {
   @Override
   public InputStream execute(List<String> args, InputStream input) throws Exception {
     try {
-      JCommander jCommander = new JCommander(this, args.toArray(new String[args.size()]));
+      new JCommander(this, args.toArray(new String[args.size()]));
     } catch (ParameterException exception) {
+
       throw new Exception("ParameterException: " + exception.getMessage());
     }
 
     if (parameters.size() == 0) {
       throw new Exception("Not enough arguments");
+    }
+
+    if (countLinesAfter < 0) {
+      throw new Exception("Context argument must be non-negative");
     }
 
     String regex = parameters.get(0);
