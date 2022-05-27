@@ -19,6 +19,7 @@ jobs:
       - name: Checkstyle
         uses: dbelyaev/action-checkstyle@v0.5.1
         with:
+          checkstyle_config: sun_checks.xml
           level: warning
       - name: Archive test report
         uses: actions/upload-artifact@v2
